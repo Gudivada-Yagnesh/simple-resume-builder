@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4bb543;
+            --gray: #6c757d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+        
+        .app-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .input-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .preview-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary);
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #3a9c3a;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .resume-preview {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            min-height: 500px;
+            background: #f9f9f9;
+            overflow-y: auto;
+        }
+        
+        .resume-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .resume-name {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .resume-title {
+            font-size: 1.2rem;
+            color: var(--gray);
+        }
+        
+        .resume-section {
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .resume-item {
+            margin-bottom: 15px;
+        }
+        
+        .item-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .item-subtitle {
+            color: var(--gray);
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+        
+        .message {
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Resume Builder</h1>
+            <p class="subtitle">Create professional resumes in minutes</p>
+        </header>
+        
+        <div class="app-container">
+            <div class="input-section">
+                <h2>Resume Information</h2>
+                
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="Prabhas Raju">
+                </div>
+                
+                <div class="form-group">
+                    <label for="title">Professional Title</label>
+                    <input type="text" id="title" placeholder="Web Developer">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="yagnesh.29@example.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="text" id="phone" placeholder="99999 99999">
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" placeholder="City, Country">
+                </div>
+                
+                <div class="form-group">
+                    <label for="summary">Professional Summary</label>
+                    <textarea id="summary" placeholder="Experienced software engineer with 5+ years in web development..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="experience">Work Experience</label>
+                    <textarea id="experience" placeholder="Senior Developer at Tech Company (2028-2030)&#10;- Led a team of 5 developers&#10;- Improved application performance by 40%"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="education">Education</label>
+                    <textarea id="education" placeholder="Bachelor of technology in Computer Science&#10;ABC Institute of Information Technology (2024-2028)"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="skills">Skills</label>
+                    <textarea id="skills" placeholder="JavaScript, React, Node.js, Python, SQL"></textarea>
+                </div>
+                
+                <div class="actions">
+                    <button class="btn-primary" onclick="updatePreview()">Update Preview</button>
+                    <button class="btn-success" onclick="downloadPDF()">Download PDF</button>
+                </div>
+                
+                <div id="message" class="message"></div>
+            </div>
+            
+            <div class="preview-section">
+                <h2>Resume Preview</h2>
+                <div class="resume-preview" id="resume-preview">
+                    <!-- Resume preview will be generated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include jsPDF library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+        // Update resume preview
+        function updatePreview() {
+            const preview = document.getElementById('resume-preview');
+            
+            const name = document.getElementById('name').value || 'Your Name';
+            const title = document.getElementById('title').value || 'Professional Title';
+            const email = document.getElementById('email').value || 'email@example.com';
+            const phone = document.getElementById('phone').value || '(123) 456-7890';
+            const location = document.getElementById('location').value || 'City, Country';
+            const summary = document.getElementById('summary').value || 'Professional summary will appear here.';
+            const experience = document.getElementById('experience').value || 'Work experience details will appear here.';
+            const education = document.getElementById('education').value || 'Education history will appear here.';
+            const skills = document.getElementById('skills').value || 'Skills will appear here.';
+            
+            preview.innerHTML = `
+                <div class="resume-header">
+                    <div class="resume-name">${name}</div>
+                    <div class="resume-title">${title}</div>
+                    <div>${email} | ${phone} | ${location}</div>
+                </div>
+                
+                <div class="resume-section">
+                    <div class="section-title">Professional Summary</div>
+                    <p>${summary.replace(/\n/g, '<br>')}</p>
+                </div>
+                
+                <div class="resume-section">
+                    <div class="section-title">Work Experience</div>
+                    <div class="resume-item">
+                        <div class="item-content">${experience.replace(/\n/g, '<br>')}</div>
+                    </div>
+                </div>
+                
+                <div class="resume-section">
+                    <div class="section-title">Education</div>
+                    <div class="resume-item">
+                        <div class="item-content">${education.replace(/\n/g, '<br>')}</div>
+                    </div>
+                </div>
+                
+                <div class="resume-section">
+                    <div class="section-title">Skills</div>
+                    <div class="resume-item">
+                        <div class="item-content">${skills.replace(/\n/g, '<br>')}</div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Show message
+        function showMessage(text) {
+            const messageElement = document.getElementById('message');
+            messageElement.textContent = text;
+            messageElement.className = 'message success';
+            messageElement.style.display = 'block';
+            
+            // Hide message after 5 seconds
+            setTimeout(() => {
+                messageElement.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Download as PDF
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            
+            // Get resume content
+            const name = document.getElementById('name').value || 'Your Name';
+            const title = document.getElementById('title').value || 'Professional Title';
+            const email = document.getElementById('email').value || 'email@example.com';
+            const phone = document.getElementById('phone').value || '(123) 456-7890';
+            const location = document.getElementById('location').value || 'City, Country';
+            const summary = document.getElementById('summary').value || 'Professional summary will appear here.';
+            const experience = document.getElementById('experience').value || 'Work experience details will appear here.';
+            const education = document.getElementById('education').value || 'Education history will appear here.';
+            const skills = document.getElementById('skills').value || 'Skills will appear here.';
+            
+            // Create PDF document
+            const doc = new jsPDF();
+            let yPosition = 20;
+            
+            // Set font styles
+            doc.setFontSize(24);
+            doc.setFont(undefined, 'bold');
+            doc.text(name, 105, yPosition, { align: 'center' });
+            
+            yPosition += 10;
+            doc.setFontSize(14);
+            doc.setFont(undefined, 'normal');
+            doc.text(title, 105, yPosition, { align: 'center' });
+            
+            yPosition += 8;
+            doc.setFontSize(10);
+            doc.text(`${email} | ${phone} | ${location}`, 105, yPosition, { align: 'center' });
+            
+            yPosition += 15;
+            
+            // Professional Summary
+            doc.setFontSize(16);
+            doc.setFont(undefined, 'bold');
+            doc.text('Professional Summary', 20, yPosition);
+            yPosition += 8;
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            const splitSummary = doc.splitTextToSize(summary, 170);
+            doc.text(splitSummary, 20, yPosition);
+            yPosition += (splitSummary.length * 5) + 10;
+            
+            // Work Experience
+            if (yPosition > 250) {
+                doc.addPage();
+                yPosition = 20;
+            }
+            
+            doc.setFontSize(16);
+            doc.setFont(undefined, 'bold');
+            doc.text('Work Experience', 20, yPosition);
+            yPosition += 8;
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            const splitExperience = doc.splitTextToSize(experience, 170);
+            doc.text(splitExperience, 20, yPosition);
+            yPosition += (splitExperience.length * 5) + 10;
+            
+            // Education
+            if (yPosition > 250) {
+                doc.addPage();
+                yPosition = 20;
+            }
+            
+            doc.setFontSize(16);
+            doc.setFont(undefined, 'bold');
+            doc.text('Education', 20, yPosition);
+            yPosition += 8;
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            const splitEducation = doc.splitTextToSize(education, 170);
+            doc.text(splitEducation, 20, yPosition);
+            yPosition += (splitEducation.length * 5) + 10;
+            
+            // Skills
+            if (yPosition > 250) {
+                doc.addPage();
+                yPosition = 20;
+            }
+            
+            doc.setFontSize(16);
+            doc.setFont(undefined, 'bold');
+            doc.text('Skills', 20, yPosition);
+            yPosition += 8;
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            const splitSkills = doc.splitTextToSize(skills, 170);
+            doc.text(splitSkills, 20, yPosition);
+            
+            // Save the PDF
+            doc.save(`${name.replace(/\s+/g, '_')}_Resume.pdf`);
+            
+            showMessage('PDF downloaded successfully!');
+        }
+        
+        // Initialize the preview on page load
+        window.onload = updatePreview;
+    </script>
+</body>
+</html>
